@@ -1,0 +1,337 @@
+						Notes from Nanodegree 
+
+version of Android OS are namned after deserts. The reason to use the latest one is that some new harware was added only in the new versions
+
+Problems with mobile development -
+1. low processing power 
+2. limited RAM 
+3. Intermittent low bandwidth, high latency, poor data connection
+4. Impact on battery life 
+
+
+there is a difference between minimum SDK and target SDK 
+Mim SDK - google play won't show your app on devices running a platform version lower than the minimum SDK. remeber that each release introduced with it new APIs and hardware support.
+Target SDK - which platform version you have tested on. An app targeted to a specific target will continue to be forward compatible on future releases. The platform uses the target SDK values in case the new platform introduces significant changes that causes trouble. Thus, app won't break when phone gets upgraded. 
+
+
+
+Android is a full software task: 
+
+adspace - linux kernel - hardware tasks such as power management, hardware drivers.
+Next come some core C and C++ libraries like libC, SQLite ( this is written in C, but interfaces exist for just about every language), android runtime machine (ART), SSL, webkit, media framework, etc.
+Them comes teh application framework - activity manager, location manager, etc. 
+Then comes every app that is installed, i.e. native android apps and third party apps. 
+
+
+
+When you hit run in the emulator, the first thing that happens is that the code gets compiled into byte code that can be run in the android virtual machine. This gets installed onto the device.
+
+
+GRADLE - a build toolkit that  allows you to manage dependencies and allows you to define custom build logic. 
+ 
+
+ So, we start with an android package. Gradle builds this and packages it into something called an APK, wich is an application package. It is a specially formatted zip file. It consists of the byte code, the resources (images, UI xml, etc.) and something called the manifest.
+ After APK is ready, it is signed (JAR signer) and then pushed to the device using ADB -  android debug bridge. 
+
+ Android studio used ADB again to send a start command by the remote shell by identifying the package and class name of the main activity. 
+
+
+ For phone - Settings - about phone --  build number - tap seven time. After this go back to setting and you will see the developer menu appear.
+
+ It is also possible to ubuild project from terminal. And them run it on the phone from terminal. 
+ Some of the basic command line tools are as follows:
+
+ chmod +x gradlew - This command only needs to be run once and is used to give gradlew the correct execute permissions.
+
+./gradlew assembleDebug - This command will compile the code.
+
+adb install -r app/build/outputs/apk/app-debug-unaligned.apk - This command will install the APK. With the -r flag it will overwrite any prior installed versions. Note if you have more than one device, you will need to use the -s flag right after 'adb' to specify the serial number of the intended device.
+
+adb shell am start -n com.example.android.sunshine.app/com.example.android.sunshine.app.MainActivity - This command will actually run the app. // am stands for activity manager. 
+
+
+When you compare two branches in Github: 
+a red highlighted line was one that was deleted from the first branch in the second brnach 
+a green highlishted line was one that was added to the first branch in the second branch.
+
+
+
+A fragment is a modular container within your activity. 
+We can use multiple fragments in a single activity 
+
+Our UI layout resource, in this project, is called fragment_main, and is contained in the "res" or resources directory. IT is an xml file. 
+
+
+You'll also notice that Dan is defining our entire UI within XML files. These XML files are then "inflated" into live Java View objects. It's also possible to create your layout in code at runtime, but using XML is considered best practice - and has many significant advantages you'll learn about throughout the course.
+
+The Activity class that Dan's extending with MainActivity is the screen, or window, that's used to display a visual user interface to our users. You'll learn more about Activities in Android in Lesson 3.
+
+The Fragment class extended with PlaceHolderFragment (we have somehitng else in this latest version) is used to encapsulate portions of an Activity within the UI. You'll find out why Fragments are awesome in Lesson 5.
+
+So when the xml is called, a hierarchy of view objects is set in memory - THIS IS SOMETHING THAT IS IMPORTANT TO UNDERSTAND.
+
+
+Each of the layout managers (linear layout, relative layout and grid layout) extends the View Group class - which is iteself an extension of the View Class- designed specifically to contain and layout multiple child views. i.e. you can create your own layout managers. 
+
+Frame Layout - when you only have one child view 
+Linear - stacking views horizontally or vertically 
+Relative - different positions to different views 
+
+
+
+So for populating the listview layout, there is a flow to the whole procudure. 
+You have the raw data that is initialized by the adapter. The adapter can build a list item layout for each of the data elements, as and when they are requested by the ListView. In this way the listView will get populated. 
+
+
+We can initialize an adapter with 4 parameters ( initialized as a array of strings) --> 
+1. Context
+2. ID of list item layout 
+3. ID of text view 
+4. list of data 
+
+
+context - it contains global information about the app environment. It allows us to access system services and resources, as well as application specific resources that we have defined. 
+
+
+xml layout is inflated to a view hierarchy. Each layout in the hierarchy can have a ID, but it is not necessary. 
+
+
+to get debug statements -  use Log.d ;  navigate to Android Monitor and click logcat view. 
+
+
+Activity
+
+Activities are the components of Android apps that the user interacts with and a core class in Android. When you create an app with Android Studio, it will create an initial activity class that will start when the app is launched. The default name of this activity is MainActivity. An activity is a single, focused thing that the user can do and roughly maps to one screen of the app.
+
+
+Fragment
+
+Activities can contain one or more Fragments. Fragments are modular sections of an activity, usually meant to display UI. Two activities can have the same fragment and fragments can be added or removed from an Activity. An Activity with blank Fragment is what we created for Sunshine. The PlaceholderFragment is automatically generated as an inner class of the activity, but fragments don’t need to be inner classes.
+
+
+
+Views and ViewGroups
+
+A view is the basic building block for user interface components. A fragment might combine multiple views to define its layout. Buttons, text and other widgets are subclasses of views and can be combined in ViewGroups to create larger layouts. Common ViewGroups include:
+
+LinearLayout - For horizontal or vertical collections of elements.
+RelativeLayout - For laying out elements relative to one another.
+FrameLayout - For a single view.
+Since views nest within other views, this creates a tree like structure of views for every layout.
+
+
+
+
+
+Views and XML Layouts
+
+To describe our user interface, we describe layouts using XML. The layout defines a collection of views, view groups and the relationships between them. Our layouts are stored in the app/src/main/res/layout directory. To turn an xml layout into java view objects, we need to inflate the layout. After the layout is inflated, we need to associate it with an Activity or Fragment. This process of inflating and associating is a little different depending on whether it’s a layout for an Activity or Fragment.
+
+For an Activity
+We inflate the layout and associate it with the Activity by calling the setContentView method in onCreate in our Activity:
+
+setContentView(R.layout.activity_main);
+
+For a Fragment
+In our Fragment classes we inflate the layout in the onCreateView method, which includes a LayoutInflater as a parameter:
+
+View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+The root view, or view element which contains all the other views, is returned by the inflate method of the LayoutInflater. We then should return this rootView for the onCreateView.
+
+
+
+
+ListView
+
+ListView is a subclass of View optimized for displaying lists by displaying many copies of a single layout. We are going to use a ListView to display our weather information in Sunshine. Each row of weather information is defined by a layout called list_item_forecast.xml. The list view contains multiple copies of list_item_forecast.xml, one for each row of weather data.
+
+An Adapter is used to populate a ListView.
+
+Adapter
+Adapters translate a data source into views for a ListView to display. In our case we used an ArrayAdapter to take an array as our data source and populate our ListView with the data from the array.
+
+
+Notes on Tips, Tricks and Troublshooting in ANDROID STUDIO: 
+1. command shift A - search for whatever you want to do such as auto-import
+2. command O to open up a java class file ,  you can also enter line number 
+3. if its not a java file, you can do a command shift O 
+4. command D to copy a line/section
+5. alt + up --> expands chunks that need to be copied. For example from word, to line, to block, etc. alt is option in mac
+6. command click on name to open it up
+7. command P shows parameter list 
+8. command j -> context aware code blocks, for example for loop
+9. tools:text = "This message will only appear in the layout preview" // this can come within a view such as a TextView. These values only appear during layout time. Won't appear in app is buit. Furthermore, you can also add to other things such as tools:layout_height
+
+Troubleshoting
+1. You can alt+enter --> you can create the missing resources without having to go to the needed file. When you navigate to the file, you will see that teh string that you typed up will be there. 
+
+
+									Recap 
+
+layout is in XML. layout defines a colection of views, view groups and the relatinship between them. 
+to turn the xml layout into java view objects, we need to inflate the layout. once infated, it can be associated with either and Activity or a Fragment. 
+
+so really it is like ACTIVITIES - > FRAGMENTS -> VIEWGROUPS (->VIEWS) -> VIEWS. 
+Layouts - >  collection of views, view groups (which need to be inflated and associated with activities or fragments)
+
+
+
+There are two clients on android to connect : httpUrlConnection and HttpClient. In modern SDKs,(gingerbread onwards) httpurlconenctions should be used since it is faster, amd better optimized. 
+The Android platform includes the HttpURLConnection client, which supports HTTPS, streaming uploads and downloads, configurable timeouts, IPv6, and connection pooling.
+
+LOGGING: 
+there are 5 levels: 
+
+ERROR - kept
+WARN  - kept
+INFO - kept
+DEBUG - debug logs are compiled in but are stripped at runtime 
+VERBOSE - only during developemt
+
+
+you can choose which level you want to see in the Android Device Monitor. 
+
+
+main thread = UI Thread
+
+long running work should be in other threads. these include: 
+1. network calls
+2. decoding bitmacks 
+3. reading/writing to the database
+
+
+threading: 
+one options is to actually create your own thread for doing stuff and then updating the main thread. But, there is a lot of overhead to handle to make it thread safe. 
+
+There is another example in which it is possible, but we have to manage two runnables. To abstract away the complexity, we have the AsyncTask class. 
+
+To kick off the asyncTask, we just need to we just need to initialize it and call the relevant method. For example, we can do: 
+
+new DownloadImageTask().execute("http://www.abc.com/image.png")
+
+
+When you extend the AsyncTask class, you need to specify certain generics:
+1. what you need to use in to the doinBackground method.
+2. the type of objects that you'll get when you get progress updates
+3. the type of result that you will be sending back to the main thread throught the onPostExecute method. 
+
+
+For AsyncTask, only doInBackground is required. These other 3 are optional: 
+1. onPreExecute()
+2. onProgressUpdate()
+3. onPostExecure()
+
+
+you have the option of calling the publishProgress() in the doInBackground() (as many times as you want) , and each time it is called, onProgessUpdate() is called. Thus we can show the user the progress. 
+
+
+@override	
+It's a hint for the compiler to let it know that you're overriding the method of a parent class (or interface in Java 6).
+If the compiler detects that there is no function to override, it will warn you (or error).
+This is extremely useful to quickly identify typos or API changes. Say you're trying to override your parent class's method harvest() but spell it harvset(), your program will silently call the base class, and without @Override, you wouldn't have any warning about that.
+Likewise, if you're using a library, and in version 2 of the library, harvest() has been modified to take an integer parameter, you would no longer override it. Again, @Override would quickly tell you.
+
+
+You can use something like className.class.getSimpleName() to get the name of the class. This is useful if you ever have to rename the class -> will get an exception. Code is more robust / reliable. 
+
+
+right now, beacuse the data transfer is being created within an activity, it can be terminated by as simply as rotating the phone into a different orientation. So this approach should only be used when the life cycle of the data transfer is tied to a specific activity (and would typically last for only a couple of seconds max). 
+
+alternative 1: use a "service" - an application component without a UI thats less likely to be interrupted. this is possibly schedulled using an "inexact alarm" 
+
+
+alternative 2: sync adapter - designed to schedule your backgroud data syncs as efficiently as possible. 
+
+Alternative 3: Google Cloud messaging - lets you notify you sync adapter of changes on the server side, so with this you only initiate network requests from your app when you know for sure that there is somehting to be updated on the server. 
+
+
+the string folder in res->values-string can have a property called transaltable, which can transalte into other languages. 
+
+showAsAction is set to never because we do not want to see it in the menu bar. 
+
+Note -  fragements can be created from the "android component" in New option. 
+
+Don't use variables to store permissions  - they can be changed. So use context.checkselfPermission()
+
+Add internet permission in android manifest xml file.
+
+Its a good idea to log the data transfer so that you can seach for it with the log id later. 
+
+
+Note - android is opensource. To be a better programmer, check the source code frequently to get a complete picture. 
+
+
+
+					NOTES IN COMPLETION SO FAR AND RECAP:
+
+
+So in the menu folder (under res) you have the xml representing the items that you want in the menu (such as 'Setting' and 'Refresh'). You can see that the "main.xml" file gets inflated in the MainActivity class in the onCreateOptions function like so: 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+(Additionally it should be noted that the "id" of the menu_xml is stored in values folder.) ( Also note that the MainActivity is an activity java file that extends AppCompatActivity)
+
+Similarly, the "forcastFragment.xml" file gets inflated in the ForecastFragment java file, which extends "Fragment" class. It is inflated in the onCreateOptionsMEnu like so : 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.forecastfragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+
+Remember that the fragment is contained within the activity. So the parent of fragement_main is going to be Activity_main. 
+The acitivity itself also has a "match_parent" field, so I suppose this is defined as default somewhere in the architecture. It takes up the whole screen. 
+
+We changed relative layout to frameLayout (in fragment_main.xml) because the layout only contains one child, which is the ListView.
+
+So I think somewhere ( and some point in time), we added the content_main layout in the main layout, by adding the following tag in the content_main layout: 
+    <include layout="@layout/content_main" />
+
+So the flow, as I can see it, is as follows: 
+In the ctivity_main.xml, we have a reference to content_main.xml. 
+In content_main.xml, we have a reference to layout "fragment_main.xml" byusing the tag:
+    tools:layout="@layout/fragment_main" />
+In fragment_main.xml, we have a ListView 
+
+Separately, we have a TextView defined in list_item_forecast.xml 
+
+
+In MainActivity.java, we reference the activity_main in the onCreate function. 
+In ForecastFragment.java, we inflate the fragment_main in onCreateView function.
+
+The adapter, which is defined as part of the ForecastFragment, takes in the activity (using getActivity() function), the list_item_forcast, list_item_forecast_textview, and the data. So essentially , the list_item_forcast is referenced in the Adapter. 
+
+
+"A View occupies a rectangular area on the screen and is responsible for drawing and event handling. View is the base class for widgets, which are used to create interactive UI components (buttons, text fields, etc.). The ViewGroup subclass is the base class for layouts, which are invisible containers that hold other Views (or other ViewGroups) and define their layout properties."
+
+
+
+TEXTVIEW: Displays text to the user and optionally allows them to edit it. 
+LISTVIEW: ListView is a view group that displays a list of scrollable items. The list items are automatically inserted to the list using an Adapter that pulls content from a source such as an array or database query and converts each item result into a view that's placed into the list.
+
+
+
+
+
+QUESTOIN: what is the difference between teh ID and the title in the android menu? Whats the point of having both of them there? 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
