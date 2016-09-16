@@ -1,2 +1,56 @@
 					NOTES ON LESSON 3 OF PROJECT 1 
-	
+
+We want to be able to detect a click on an list item in the weather app. To do so, we should use 
+setOnItemClickListener(AdapterView.OnItemClickListener listener)
+
+
+Note-  command and arrow to rotate android screen. 
+
+
+Note - you need to type in the whole function sometimes for the "override" to take effect. 
+
+Secondly, that weird thing when a new method/class is declared inside the parameter list of another function is called instantiating in place. 
+
+the first thing is that on a listview, we set a setOnItemClickListener. So that we can listen to whatever element of the listview is being cliked. The setOnItemclickListener takes in a AdapterView.OnItemClickListener, which is a interface (AdapterView.OnItemClickListener : Interface definition for a callback to be invoked when an item in this AdapterView has been clicked).
+
+So we defined  NEW adapterview.onItemClickListener and set it on the listview using the function setonItemClickListner. 
+
+Now the adapterview.OnItemCLickListener interface needs the function onItemClick implemented. 
+
+
+note that this is different from the adapter that has already been set on the ListView in the beginning. This adapter has the .getItem(int) function that we use to the get the position of the clicked list item. 
+
+
+
+GITHUB branch for reference: https://github.com/udacity/Sunshine-Version-2/tree/3.02_create_detail_activity
+
+
+We use "intent" to identify the target activity we need to move to. There are explicit intents ( name of file) , and implicit intents (which just specify something that needs to be done on some data; some intents which are supported are present on the android site. an example of an intent would be to look up details of a contact.)
+
+
+SERVICE:
+A Service is an application component that can perform long-running operations in the background and does not provide a user interface. Another application component can start a service and it will continue to run in the background even if the user switches to another application. Additionally, a component can bind to a service to interact with it and even perform interprocess communication (IPC). For example, a service might handle network transactions, play music, perform file I/O, or interact with a content provider, all from the background.
+A service can essentially take two forms:
+Started
+A service is "started" when an application component (such as an activity) starts it by calling startService(). Once started, a service can run in the background indefinitely, even if the component that started it is destroyed. Usually, a started service performs a single operation and does not return a result to the caller. For example, it might download or upload a file over the network. When the operation is done, the service should stop itself.
+Bound
+A service is "bound" when an application component binds to it by calling bindService(). A bound service offers a client-server interface that allows components to interact with the service, send requests, get results, and even do so across processes with interprocess communication (IPC). A bound service runs only as long as another application component is bound to it. Multiple components can bind to the service at once, but when all of them unbind, the service is destroyed.
+
+
+There is a framework for setings that can and should be leveraged. 
+
+for gingerbread- preferenceActivity 
+later - PreferenceFragemnet 
+
+
+In Final project, I will have the option of using wizard in Android Studio to create new Settings Activity. The code provided here will be backwards compatible by using both PreferenceActivity and PreferenceFragment.
+
+
+
+if you use MainActivity as parentActivity, when you hit the back button you will be taken to the main page. 
+
+
+to get ot the Settings Activity, we added an intent in the onOptionsItemSelected fucntion. 
+
+in displaying settings, we create an xml directory and an xml file. the root element in the xml file should be PreferenceScreen 
+

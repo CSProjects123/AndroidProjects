@@ -291,6 +291,7 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_refresh){
             FetchWeatherTask weatherTask = new FetchWeatherTask();
+            // here we need to get the potal code entered by the user.
             weatherTask.execute("94043");
             return true;
         }
