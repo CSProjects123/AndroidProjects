@@ -1,11 +1,15 @@
 package app.com.example.android.sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +51,26 @@ public class MainActivity extends AppCompatActivity {
             Intent settingsFromMainIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsFromMainIntent);
             return true;
+        }
+        if (id == R.id.preferred_location){
+
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String postalCode = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+            // two things we need to do. First, check if there is a MAPS  activity.
+            // Second, pass in the postal code to be displayed on the maps
+            // the first one is resolved by calling resolveActivity on intent
+            // so first, create the intent
+            // intent filters are for receiving
+            //step one make the intent
+            Uri mapUri = Uri.parse("geo:0,0?").buildUpon().appendQueryParameter("q", postalCode).build();
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW);
+            mapIntent.setData(mapUri);
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                Log.v("map intent1234", "map intent1234");
+                startActivity(mapIntent);
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }
