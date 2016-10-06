@@ -39,7 +39,7 @@ public class ForecastFragment extends Fragment {
 
     private static final String TAGGING = "Testing: ";
 
-
+s
     private ArrayAdapter<String> mForecastAdapter;
 
     public ForecastFragment() {

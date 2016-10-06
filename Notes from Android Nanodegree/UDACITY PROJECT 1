@@ -1,16 +1,26 @@
 					UDACITY PROJECT 1 
 
-Note - project should not crash if there is no internet connectivity. 
-     -                             screen is rotated 
+
+Note: Acitvities have back stacks where fragments are recorded. 
+
+A fragment is not required to be part of an activity layout. However when it is, this can in two ways: 
+
+You can insert a fragment into your activity layout by declaring the fragment in the activity's layout file, as a <fragment> element, or from your application code by adding it to an existing ViewGroup. 
+
+
+You will probably have to create 2 different layouts for one fragment. Say one contains the Linear Layout listview. The other will contain the textView  - each eleement of the lsit view. When you initially create the text view, it occupies the whole screen -  but you need to change the total height of this at the top to occupy just one row. 
 
 
 
 
 
-What is the best way to about this project? 
-1. Taking advantage of the sample project and the notes would defintaly help. I believe is will be easier to understand and cement knowledge as there are still areas where I did not apply myself, I just blindly followed whatever the instructor was saying. 
-2. After that, you can even go over the notes in Sublime - will and act as a refresher. 
-3. Make sure this is all done with forced attentiona dn speed - you need to move on to making the APP asap.
+
+
+
+
+
+ 
+
 
 
 

@@ -50,20 +50,20 @@ In Final project, I will have the option of using wizard in Android Studio to cr
 if you use MainActivity as parentActivity, when you hit the back button you will be taken to the main page. 
 
 
-to get ot the Settings Activity, we added an intent in the onOptionsItemSelected fucntion. 
+to get to the Settings Activity, we added an intent in the onOptionsItemSelected fucntion. 
 
-in displaying settings, we create an xml directory and an xml file. the root element in the xml file should be PreferenceScreen 
+in displaying settings, we create an xml directory and an xml file. The root element in the xml file should be PreferenceScreen 
 
 Udacity gave me code for the SettingsActivity class. The SettingsActivity extends PreferenceActivity and implements interface Preference.OnPreferenceChangeListener.
 
 
-So I think once we add preference from the xml file in the onCreate fucntion in the activity, we have to set a Listener on it so that the UI can be updated. We get the specific preference on which we want to add the listener using the findPreference function (the preference we are looking for is "location")
+So I think once we add preference from the xml file in the onCreate function in the activity, we have to set a Listener on it so that the UI can be updated. We get the specific preference on which we want to add the listener using the findPreference function (the preference we are looking for is "location")
 
 We initialize the Listener on the preference with the current value. We call the fucntion onPreferenceChange (with paramteres - preference and a value) so that updates can happen.
 
 
 
-Major Exercise - adding funj ksdjv ksdj vkjsd nkvjsdnvkjnskdjvnskdjnvksjndvkjnkjans c,m aKSCkjhwdv jherldsvocjndmctionality to change temperature units. 
+Major Exercise - adding funtionality to change temperature units. 
 
 1. I added an item in forecastFragment.xml and get the option to show up. 
 2. You need this to display the current setting, but I can come back to this later. 
@@ -101,13 +101,13 @@ Uri mapUri = Uri.parse("geo:0,0?").buildUpon().appendQueryParameter("q", postalC
 
 
 
-The way the system knows whic app to lauch for a particular activity is to have an intent filter, which can optionally contain a scheme (such as geo). If more than one app is present, user is given a preference. 
+The way the system knows which app to lauch for a particular activity is to have an intent filter, which can optionally contain a scheme (such as geo). If more than one app is present, user is given a preference. 
 
 
 
 There is something called "receivers" that can listen to broadcasts ("system is rebooting" for example)
 
-To have your service staert listening for broascasts, you need to register it. There are two ways of doing so: 
+To have your service start listening for broascasts, you need to register it. There are two ways of doing so: 
 1. Either make an entry in the manifest 
 2. dynamically, in some application component, typically an activity. 
 
@@ -116,9 +116,14 @@ Both these methods require you to specify teh intent filter.
 Major difference between these two is when they are triggered. 
 
 in manifest- basically always listening - for example, you need something from Google Cloud Messaging - GCM
-dynamicaly- kistening only when your app is running.
+dynamicaly- listening only when your app is running.
 
 Note - you can use this manifest method to wait until you have good internet connectivity and them start the tasks that require good internet connectivity 
+
+
+											QUESTIONS 
+
+When to use an activity vs fragment? 
 
 
 
