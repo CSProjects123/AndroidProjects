@@ -33,18 +33,18 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
-            // if it's not recycled, initialize some attributes
+            //containerView =  (ImageView) LayoutInflater.from(mContext).inflate(R.layout.item_movie_grid, parent, false);
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setPadding(5, 5, 5, 5);
+            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(8, 8, 8, 8);
         } else {
             imageView = (ImageView) convertView;
         }
-
         imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
+
 
     // references to our    images
     private Integer[] mThumbIds = {
@@ -62,7 +62,8 @@ public class ImageAdapter extends BaseAdapter {
             R.mipmap.me, R.mipmap.dog,
             R.mipmap.me, R.mipmap.dog,
             R.mipmap.me, R.mipmap.dog,
-            R.mipmap.me, R.mipmap.dog
+            R.mipmap.me, R.mipmap.dog,
+            R.mipmap.interstellar, R.mipmap.interstellar,
 
     };
 }
