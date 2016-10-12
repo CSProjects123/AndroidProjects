@@ -35,9 +35,9 @@ public class ImageAdapter extends BaseAdapter {
         if (convertView == null) {
             //containerView =  (ImageView) LayoutInflater.from(mContext).inflate(R.layout.item_movie_grid, parent, false);
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            imageView.setPadding(3, 3, 3, 3);
         } else {
             imageView = (ImageView) convertView;
         }
