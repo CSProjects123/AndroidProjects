@@ -1,5 +1,6 @@
 package com.edbono.www.popularmovies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,9 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            return true;
+        }
+
+        if (id == R.id.change_sort_order){
+            Intent settingsFromMainIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsFromMainIntent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+
     }
 }

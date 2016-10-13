@@ -146,9 +146,14 @@ public class NetworkingFragment extends Fragment {
             gridViewTrial.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    Toast.makeText(getActivity(), "mymymy", Toast.LENGTH_SHORT).show();
                     Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
+                    //detailWeatherIntent.putExtra(Intent.EXTRA_TEXT, forecast);
+                    // information we need to send include:
+                    // original title
+                    /* movie poster image thumbnail
+                    A plot synopsis (called overview in the api)
+                    user rating (called vote_average in the api)
+                    release date*/
                     startActivity(detailIntent);
 
                 }
