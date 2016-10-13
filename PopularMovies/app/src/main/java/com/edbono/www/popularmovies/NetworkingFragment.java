@@ -48,8 +48,9 @@ public class NetworkingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout f^or this fragment
-        return inflater.inflate(R.layout.fragment_networking, container, false);
+        // Inflate the layout for this fragment
+        View fragmentView = inflater.inflate(R.layout.fragment_networking, container, false);
+        return fragmentView;
 
     }
 
@@ -108,7 +109,7 @@ public class NetworkingFragment extends Fragment {
                     String posterUrl = base_url_posters+s;
                     posterURLs.add(posterUrl);
                 }
-                // converting the ArrayList into an array of strings and returning it.
+                //converting the ArrayList into an array of strings and returning it.
                 String[] stringArray = posterURLs.toArray(new String[0]);
                 return stringArray;
 
@@ -143,7 +144,9 @@ public class NetworkingFragment extends Fragment {
             String y = getActivity().getLocalClassName();
             Log.v("classname", y);
             ((MainActivity)getActivity()).setUrlArrayList(arrnew);
-
+            GridView gridViewTrial = (GridView) getActivity().findViewById(R.id.gridviewtwo);
+            ImageAdapter imageAdapter = new ImageAdapter(getActivity(), arrnew);
+            gridViewTrial.setAdapter(imageAdapter);
         }
 
     }

@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.GridView;
 
 import java.util.ArrayList;
 
@@ -29,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
+        //GridView gridview = (GridView) findViewById(R.id.gridview);
         // find a way to pass the URLs to the image adapter
-        ImageAdapter imageAdapter = new ImageAdapter(this);
-        Log.v("TRAN", Integer.toString(urlArrayList.size()));
-        imageAdapter.setUrlCollection(urlArrayList);
-        gridview.setAdapter(imageAdapter);
+        //ImageAdapter imageAdapter = new ImageAdapter(this);
+        //Log.v("TRAN", Integer.toString(urlArrayList.size()));
+        //imageAdapter.setUrlCollection(urlArrayList);
+        //gridview.setAdapter(imageAdapter);
 
     }
 

@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 /**
@@ -16,9 +18,17 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
+    ArrayList<String> urlArrayList = new ArrayList<String>();
 
     public ImageAdapter(Context c) {
         mContext = c;
+    }
+
+    public ImageAdapter(Context c, ArrayList<String> arrays){
+        mContext = c;
+        urlArrayList = arrays;
+        Log.v("RRRR", Integer.toString(urlArrayList.size()));
+
     }
 
     public int getCount() {
@@ -35,17 +45,6 @@ public class ImageAdapter extends BaseAdapter {
 
     ArrayList<String> url_collection = new ArrayList<String>();
 
-    public void setUrlCollection(ArrayList<String> arr){
-        url_collection = arr;
-
-        for (String s:url_collection){
-            Log.v("urlcollection", s);
-        }
-        Log.v("THESIZEARR", Integer.toString(arr.size()));
-
-
-    }
-
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
@@ -58,8 +57,9 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        imageView.setImageResource(mThumbIds[position]);
-        //Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/ghL4ub6vwbYShlqCFHpoIRwx2sm.jpg").into(imageView);
+        //imageView.setImageResource(mThumbIds[position]);
+        Log.v("the first url", urlArrayList.get(2));
+        Picasso.with(mContext).load(urlArrayList.get(position)).into(imageView);
         //Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/6FxOPJ9Ysilpq0IgkrMJ7PubFhq.jpg").into(imageView);
         return imageView;
     }
