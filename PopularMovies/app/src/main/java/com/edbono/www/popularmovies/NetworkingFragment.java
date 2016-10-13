@@ -1,5 +1,6 @@
 package com.edbono.www.popularmovies;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -138,22 +139,20 @@ public class NetworkingFragment extends Fragment {
             for (String s: strings){
                 newArrayList.add(s);
            }
-            String y = getActivity().getLocalClassName();
-            Log.v("classname", y);
-            ((MainActivity)getActivity()).setUrlArrayList(newArrayList);
+            Log.v("length arrayList", Integer.toString(newArrayList.size()));
             GridView gridViewTrial = (GridView) getActivity().findViewById(R.id.gridviewtwo);
             ImageAdapter imageAdapter = new ImageAdapter(getActivity(), newArrayList);
             gridViewTrial.setAdapter(imageAdapter);
-
             gridViewTrial.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                     Toast.makeText(getActivity(), "mymymy", Toast.LENGTH_SHORT).show();
+                    Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
+                    startActivity(detailIntent);
 
                 }
             });
-
-
 
         }
 
