@@ -3,11 +3,23 @@ package com.edbono.www.popularmovies;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList<String> urlArrayList = new ArrayList<String>();
+
+    public void setUrlArrayList(ArrayList<String> arr ){
+        urlArrayList = arr;
+        for (String s: urlArrayList){
+            Log.v("TRANS", s);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +30,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        // find a way to pass the URLs to the image adapter
+        ImageAdapter imageAdapter = new ImageAdapter(this);
+        Log.v("TRAN", Integer.toString(urlArrayList.size()));
+        imageAdapter.setUrlCollection(urlArrayList);
+        gridview.setAdapter(imageAdapter);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

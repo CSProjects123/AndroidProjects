@@ -1,5 +1,7 @@
 package com.edbono.www.popularmovies;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +34,6 @@ import java.util.ArrayList;
  * to handle interaction events.
  */
 public class NetworkingFragment extends Fragment {
-
 
     public NetworkingFragment() {
         // Required empty public constructor
@@ -93,12 +97,21 @@ public class NetworkingFragment extends Fragment {
                     return null;
                 }
                 movie_data_string = buffer.toString();
-                Log.v("JSON movie data", movie_data_string);
                 // call a function to parse the JSON and get back the array of posterIds
                 ArrayList<String> posterIDs = posterIds(movie_data_string);
                 for (String s:posterIDs){
-                    Log.v("posterlist", s);
                 }
+                // I now want to make a ArrayList of string URLs for the posters.
+                final String base_url_posters = "http://image.tmdb.org/t/p/w185";
+                ArrayList<String> posterURLs = new ArrayList<String>();
+                for (String s: posterIDs){
+                    String posterUrl = base_url_posters+s;
+                    posterURLs.add(posterUrl);
+                }
+                // converting the ArrayList into an array of strings and returning it.
+                String[] stringArray = posterURLs.toArray(new String[0]);
+                return stringArray;
+
             } catch (IOException e){
                 Log.e(LOG_TAG, "Error", e);
                 return null;
@@ -117,7 +130,20 @@ public class NetworkingFragment extends Fragment {
 
             }
 
-            return null;
+        }
+        @Override
+        protected void onPostExecute(String[] strings){
+
+            ArrayList<String> arrnew = new ArrayList<String>();
+
+            for (String s: strings){
+               Log.v("URLS", s);
+                arrnew.add(s);
+           }
+            String y = getActivity().getLocalClassName();
+            Log.v("classname", y);
+            ((MainActivity)getActivity()).setUrlArrayList(arrnew);
+
         }
 
     }
@@ -156,7 +182,8 @@ public class NetworkingFragment extends Fragment {
     private void updateMovies(){
         NetworkingTask updateTask = new NetworkingTask();
         updateTask.execute();
-
     }
+
+
 
 }
