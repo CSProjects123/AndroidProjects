@@ -27,12 +27,10 @@ public class ImageAdapter extends BaseAdapter {
     public ImageAdapter(Context c, ArrayList<String> arrays){
         mContext = c;
         urlArrayList = arrays;
-        Log.v("RRRR", Integer.toString(urlArrayList.size()));
-
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return urlArrayList.size();
     }
 
     public Object getItem(int position) {
@@ -49,7 +47,6 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
-            //containerView =  (ImageView) LayoutInflater.from(mContext).inflate(R.layout.item_movie_grid, parent, false);
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -57,22 +54,8 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        //imageView.setImageResource(mThumbIds[position]);
         Log.v("the first url", urlArrayList.get(2));
         Picasso.with(mContext).load(urlArrayList.get(position)).into(imageView);
-        //Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/6FxOPJ9Ysilpq0IgkrMJ7PubFhq.jpg").into(imageView);
         return imageView;
     }
-
-
-    // references to our    images
-    private Integer[] mThumbIds = {
-            R.mipmap.me, R.mipmap.dog,
-            R.mipmap.me, R.mipmap.dog,
-            R.mipmap.me, R.mipmap.dog,
-            R.mipmap.me, R.mipmap.dog,
-            R.mipmap.me, R.mipmap.dog,
-            R.mipmap.interstellar, R.mipmap.interstellar,
-
-    };
 }

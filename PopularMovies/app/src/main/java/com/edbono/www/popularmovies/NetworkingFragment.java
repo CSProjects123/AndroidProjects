@@ -135,17 +135,16 @@ public class NetworkingFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] strings){
 
-            ArrayList<String> arrnew = new ArrayList<String>();
+            ArrayList<String> newArrayList = new ArrayList<String>();
 
             for (String s: strings){
-               Log.v("URLS", s);
-                arrnew.add(s);
+                newArrayList.add(s);
            }
             String y = getActivity().getLocalClassName();
             Log.v("classname", y);
-            ((MainActivity)getActivity()).setUrlArrayList(arrnew);
+            ((MainActivity)getActivity()).setUrlArrayList(newArrayList);
             GridView gridViewTrial = (GridView) getActivity().findViewById(R.id.gridviewtwo);
-            ImageAdapter imageAdapter = new ImageAdapter(getActivity(), arrnew);
+            ImageAdapter imageAdapter = new ImageAdapter(getActivity(), newArrayList);
             gridViewTrial.setAdapter(imageAdapter);
         }
 
@@ -154,22 +153,14 @@ public class NetworkingFragment extends Fragment {
     private ArrayList<String> posterIds(String json_string){
 
         ArrayList<String> arrayListOfPosters = new ArrayList<String>();
-        Log.v("json string", json_string);
         try{
             JSONObject jObject = new JSONObject(json_string);
 
             JSONArray jArray = jObject.getJSONArray("results");
-            Log.v("json array", jArray.toString());
-            // iterate over the values of the array
-            Log.v("length of json array", Integer.toString(jArray.length()));
             for (int i=0; i<jArray.length(); i++){
-                // get the json object at the index i
                 JSONObject jObj = jArray.getJSONObject(i);
-                // for this json object, get the poster ID string and add it to the arrayList
                 String posterID = jObj.getString("poster_path");
-                Log.v("posting", posterID);
                 if(posterID != null){
-                    Log.v("notNull", "notNull");
                    arrayListOfPosters.add(posterID);
                 }
             }

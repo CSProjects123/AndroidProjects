@@ -28,13 +28,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //GridView gridview = (GridView) findViewById(R.id.gridview);
-        // find a way to pass the URLs to the image adapter
-        //ImageAdapter imageAdapter = new ImageAdapter(this);
-        //Log.v("TRAN", Integer.toString(urlArrayList.size()));
-        //imageAdapter.setUrlCollection(urlArrayList);
-        //gridview.setAdapter(imageAdapter);
-
     }
 
     @Override
