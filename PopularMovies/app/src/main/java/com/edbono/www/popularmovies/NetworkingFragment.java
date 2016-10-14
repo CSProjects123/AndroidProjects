@@ -1,9 +1,11 @@
 package com.edbono.www.popularmovies;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +38,8 @@ public class NetworkingFragment extends Fragment {
     public NetworkingFragment() {
         // Required empty public constructor
     }
+
+    static boolean order_popular_movies = true;
 
     @Override
     public void onStart(){
@@ -69,10 +72,17 @@ public class NetworkingFragment extends Fragment {
 
 
             try{
+                Log.v("being triggered", "being triggered");
                 final String base_url = "http://api.themoviedb.org/3/movie";
                 final String popular_movies_motive = "popular";
                 final String top_rated_motive = "top_rated";
-                Uri builtUri = Uri.parse(base_url).buildUpon().appendPath(popular_movies_motive).appendQueryParameter("api_key", key).build();
+                String orderPref = "";
+                if (order_popular_movies){
+                    orderPref = popular_movies_motive;
+                }else{
+                    orderPref = top_rated_motive;
+                }
+                Uri builtUri = Uri.parse(base_url).buildUpon().appendPath(orderPref).appendQueryParameter("api_key", key).build();
                 Log.v("builtUri", builtUri.toString());
                 URL url = new URL(builtUri.toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -186,7 +196,15 @@ public class NetworkingFragment extends Fragment {
     }
 
 
-    private void updateMovies(){
+    public void updateMovies(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String orderType = prefs.getString(getString(R.string.order), getString(R.string.pref_order_popular_movies));
+        Log.v("WHAT", orderType);
+        // send the order type to the NetworkingTask class
+        if (!orderType.equals(getString(R.string.pref_order_popular_movies))){
+            order_popular_movies = false;
+            Log.v("wecamehere", "wecamehere");
+        }
         NetworkingTask updateTask = new NetworkingTask();
         updateTask.execute();
     }

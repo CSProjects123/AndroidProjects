@@ -8,7 +8,11 @@ A fragment is not required to be part of an activity layout. However when it is,
 You can insert a fragment into your activity layout by declaring the fragment in the activity's layout file, as a <fragment> element, or from your application code by adding it to an existing ViewGroup. 
 
 
-You will probably have to create 2 different layouts for one fragment. Say one contains the Linear Layout listview. The other will contain the textView  - each eleement of the lsit view. When you initially create the text view, it occupies the whole screen -  but you need to change the total height of this at the top to occupy just one row. 
+You will probably have to create 2 different layouts for one fragment. Say one contains the Linear Layout listview. The other will contain the textView  - each eleement of the lsit view. When you initially create the text view, it occupies the whole screen -  but you need to change the total height of this at the top to occupy just one row.
+
+
+WHEN YOU CREATE A CLASS, IT NEEDS TO BE ADDED TO THE MANIFEST. 
+ 
 
 
 

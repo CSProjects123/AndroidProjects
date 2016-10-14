@@ -23,23 +23,24 @@ public class SettingsActivity extends PreferenceActivity
     }
     private void bindPreferenceSummaryToValue(Preference preference){
 
+        preference.setOnPreferenceChangeListener(this);
         onPreferenceChange(preference, PreferenceManager
         .getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
-
 
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value){
-        Log.v("being selected", "being selected");
+        Log.v("generatedd", value.toString());
         String stringValue = value.toString();
         if (preference instanceof ListPreference){
             ListPreference listPreference = (ListPreference) preference;
-            Log.v("preference", stringValue);
+            Log.v("GET_P", stringValue);
             int prefIndex = listPreference.findIndexOfValue(stringValue);
             if(prefIndex >=0){
-                preference.setSummary(stringValue);
+                preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
+
         }
         return true;
     }
