@@ -44,7 +44,7 @@ public class NetworkingFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-        updateMovies();
+        updatovies();
     }
 
     @Override
@@ -150,6 +150,9 @@ public class NetworkingFragment extends Fragment {
                 newArrayList.add(s);
            }
             Log.v("length arrayList", Integer.toString(newArrayList.size()));
+            String temp = newArrayList.get(0);
+            temp = "the first entry " + temp;
+            Log.v("the first entry", temp);
             GridView gridViewTrial = (GridView) getActivity().findViewById(R.id.gridviewtwo);
             ImageAdapter imageAdapter = new ImageAdapter(getActivity(), newArrayList);
             gridViewTrial.setAdapter(imageAdapter);
@@ -204,6 +207,8 @@ public class NetworkingFragment extends Fragment {
         if (!orderType.equals(getString(R.string.pref_order_popular_movies))){
             order_popular_movies = false;
             Log.v("wecamehere", "wecamehere");
+        }else{
+            order_popular_movies = true;
         }
         NetworkingTask updateTask = new NetworkingTask();
         updateTask.execute();

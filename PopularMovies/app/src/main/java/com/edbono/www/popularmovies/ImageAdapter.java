@@ -30,6 +30,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public int getCount() {
+        Log.v("NEWCLASS", "NEWCLASS");
         return urlArrayList.size();
     }
 
@@ -43,6 +44,7 @@ public class ImageAdapter extends BaseAdapter {
 
     ArrayList<String> url_collection = new ArrayList<String>();
 
+
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
@@ -54,7 +56,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        Log.v("the first url", urlArrayList.get(2));
+        Log.v("the first url", urlArrayList.get(0));
         Picasso.with(mContext).load(urlArrayList.get(position)).into(imageView);
         return imageView;
     }

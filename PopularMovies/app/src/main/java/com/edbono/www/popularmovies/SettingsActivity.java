@@ -24,6 +24,7 @@ public class SettingsActivity extends PreferenceActivity
     private void bindPreferenceSummaryToValue(Preference preference){
 
         preference.setOnPreferenceChangeListener(this);
+
         onPreferenceChange(preference, PreferenceManager
         .getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
 
@@ -31,6 +32,7 @@ public class SettingsActivity extends PreferenceActivity
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value){
+
         Log.v("generatedd", value.toString());
         String stringValue = value.toString();
         if (preference instanceof ListPreference){

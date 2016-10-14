@@ -4,7 +4,7 @@
     <string name="change_sort_order">CHANGE ORDER</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="order" translatable="order">units</string>
+    <string name="order" translatable="order">ORDER</string>
     <string name="pref_order_popular_movies">POPULAR MOVIES</string>
     <string name="pref_order_top_rated">TOP RATED</string>
     <string name="title_activity_settings">Settings</string>
