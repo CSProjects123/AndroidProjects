@@ -44,7 +44,7 @@ public class NetworkingFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-        updatovies();
+        updateMovies();
     }
 
     @Override
@@ -57,6 +57,10 @@ public class NetworkingFragment extends Fragment {
     }
 
     public class NetworkingTask extends AsyncTask<String, Void, String[]>{
+
+        ArrayList<String> arrayListOfMovieTitles = new ArrayList<String>();
+
+        String movieName = new String();
 
         private final String LOG_TAG = NetworkingTask.class.getSimpleName();
 
@@ -109,16 +113,21 @@ public class NetworkingFragment extends Fragment {
                 movie_data_string = buffer.toString();
                 // call a function to parse the JSON and get back the array of posterIds
                 ArrayList<String> posterIDs = posterIds(movie_data_string);
-                for (String s:posterIDs){
+                ArrayList<String> movieNamesArrayList = getMovieNames(movie_data_string);
+                String first = movieNamesArrayList.get(0);
+                first = "the first movie" + first;
+                Log.v("The first movie",first);
+
+                for (String s:movieNamesArrayList){
+                    arrayListOfMovieTitles.add(s);
+
                 }
-                // I now want to make a ArrayList of string URLs for the posters.
                 final String base_url_posters = "http://image.tmdb.org/t/p/w185";
                 ArrayList<String> posterURLs = new ArrayList<String>();
                 for (String s: posterIDs){
                     String posterUrl = base_url_posters+s;
                     posterURLs.add(posterUrl);
                 }
-                //converting the ArrayList into an array of strings and returning it.
                 String[] stringArray = posterURLs.toArray(new String[0]);
                 return stringArray;
 
@@ -149,10 +158,8 @@ public class NetworkingFragment extends Fragment {
             for (String s: strings){
                 newArrayList.add(s);
            }
-            Log.v("length arrayList", Integer.toString(newArrayList.size()));
             String temp = newArrayList.get(0);
             temp = "the first entry " + temp;
-            Log.v("the first entry", temp);
             GridView gridViewTrial = (GridView) getActivity().findViewById(R.id.gridviewtwo);
             ImageAdapter imageAdapter = new ImageAdapter(getActivity(), newArrayList);
             gridViewTrial.setAdapter(imageAdapter);
@@ -160,7 +167,11 @@ public class NetworkingFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
-                    //detailWeatherIntent.putExtra(Intent.EXTRA_TEXT, forecast);
+                    int k = position;
+                    String tem = "pOsition" + k;
+                    Log.v("pOsition", tem);
+                    String movie_name = arrayListOfMovieTitles.get(position);
+                    detailIntent.putExtra("movie_name", movie_name);
                     // information we need to send include:
                     // original title
                     /* movie poster image thumbnail
@@ -196,6 +207,28 @@ public class NetworkingFragment extends Fragment {
             j.printStackTrace();
         }
         return arrayListOfPosters;
+    }
+
+    private ArrayList<String> getMovieNames(String json_string){
+        ArrayList<String> arrayListOfMovieTitles = new ArrayList<String>();
+        try{
+            JSONObject jsonObject = new JSONObject(json_string);
+            Log.v("new", jsonObject.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("results"); // this is an array of json objects
+            Log.v("String", jsonArray.toString());
+            // for each of these objects
+            for (int i=0; i<jsonArray.length(); i++){
+                JSONObject jObj = jsonArray.getJSONObject(i);
+                String movieTitle = jObj.getString("original_title");
+                if(movieTitle != null){
+                    arrayListOfMovieTitles.add(movieTitle);
+                }
+            }
+        }catch(JSONException j){
+            Log.e("getMoviesFunction", j.getMessage(), j);
+            j.printStackTrace();
+        }
+        return arrayListOfMovieTitles;
     }
 
 
