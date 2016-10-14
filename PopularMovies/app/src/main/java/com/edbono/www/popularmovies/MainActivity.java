@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.change_sort_order){
             Intent settingsFromMainIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsFromMainIntent);
+
             return true;
         }
 
