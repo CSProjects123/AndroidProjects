@@ -278,27 +278,27 @@ public class NetworkingFragment extends Fragment {
     }
 
 
-    private ArrayList<String> posterIds(String json_string){
-
-        ArrayList<String> arrayListOfPosters = new ArrayList<String>();
-        try{
-            JSONObject jObject = new JSONObject(json_string);
-
-            JSONArray jArray = jObject.getJSONArray("results");
-            for (int i=0; i<jArray.length(); i++){
-                JSONObject jObj = jArray.getJSONObject(i);
-                String posterID = jObj.getString("poster_path");
-                if(posterID != null){
-                   arrayListOfPosters.add(posterID);
-                }
-            }
-
-        }catch (JSONException j) {
-            Log.e("posterIDFunction", j.getMessage(), j);
-            j.printStackTrace();
-        }
-        return arrayListOfPosters;
-    }
+//    private ArrayList<String> posterIds(String json_string){
+//
+//        ArrayList<String> arrayListOfPosters = new ArrayList<String>();
+//        try{
+//            JSONObject jObject = new JSONObject(json_string);
+//
+//            JSONArray jArray = jObject.getJSONArray("results");
+//            for (int i=0; i<jArray.length(); i++){
+//                JSONObject jObj = jArray.getJSONObject(i);
+//                String posterID = jObj.getString("poster_path");
+//                if(posterID != null){
+//                   arrayListOfPosters.add(posterID);
+//                }
+//            }
+//
+//        }catch (JSONException j) {
+//            Log.e("posterIDFunction", j.getMessage(), j);
+//            j.printStackTrace();
+//        }
+//        return arrayListOfPosters;
+//    }
 
 
     public void updateMovies(){
