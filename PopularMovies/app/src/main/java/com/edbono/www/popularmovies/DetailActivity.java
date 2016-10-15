@@ -1,11 +1,13 @@
 package com.edbono.www.popularmovies;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -24,10 +26,14 @@ import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
 
+    int numberOfTrailers = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
 
         String d1 = getIntent().getExtras().getString("movie_name");
         String d2 = getIntent().getExtras().getString("release_date");
@@ -53,12 +59,16 @@ public class DetailActivity extends AppCompatActivity {
         FetchURLKey fetchURLKey = new FetchURLKey();
         fetchURLKey.execute(movie_id);
 
+        //String thesize = "thesize";
+        //thesize = thesize + Integer.toString(numberOfTrailers);
+        //Log.v("thesize", thesize);
+
 
 
     }
 
 
-    //
+
 
     public class FetchURLKey extends AsyncTask<String, Void, String>{
 
@@ -140,13 +150,37 @@ public class DetailActivity extends AppCompatActivity {
                 Log.v("YOUTUBEURL", (movieTrailerURl+s));
             }
 
+            numberOfTrailers = fullTrailerUrls.size();
+            String thesize = "thesize";
+            thesize = thesize + Integer.toString(numberOfTrailers);
+            Log.v("thesize", thesize);
 
             // Since we don;t know how many trailers there are, we wpould have to add them
-            // programatically, rather than in XML
+            // programmatically, rather than in XML
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout);
+
+            // for practices let just add a TextView
+
+            TextView txt1 = new TextView(DetailActivity.this);
+            txt1.setText("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            layout.setBackgroundColor(Color.TRANSPARENT);
+            layout.addView(txt1);
+
+            // now lets try adding a button , for which this class will have to implement listener
+            addButtons(fullTrailerUrls);
+
+        }
+
+        public void addButtons(ArrayList<String> arrayListOfTrailerUrls){
+
+
+
 
 
 
         }
+
 
 
 
