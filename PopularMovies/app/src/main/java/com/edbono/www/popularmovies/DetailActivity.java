@@ -10,12 +10,17 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -124,6 +129,48 @@ public class DetailActivity extends AppCompatActivity {
 
             String dataWithMovieID = "movie with data id: " + string;
             Log.v("Movie data ID", dataWithMovieID);
+            ArrayList<String> movieIDs = new ArrayList<String>();
+            movieIDs = arrayListOfMovieIds(string);
+            String movieTrailerURl = "http://www.youtube.com/watch?v=";
+            ArrayList<String> fullTrailerUrls = new ArrayList<String>();
+
+            for (String s: movieIDs){
+                String trailerUrl = movieTrailerURl + s;
+                fullTrailerUrls.add(trailerUrl);
+                Log.v("YOUTUBEURL", (movieTrailerURl+s));
+            }
+
+
+            // Since we don;t know how many trailers there are, we wpould have to add them
+            // programatically, rather than in XML
+
+
+
+        }
+
+
+
+        protected ArrayList<String> arrayListOfMovieIds(String string){
+            ArrayList<String> parsedList = new ArrayList<String>();
+            try{
+                JSONObject jsonObject = new JSONObject(string);
+                JSONArray jArray = jsonObject.getJSONArray("results");
+                for (int i=0; i<jArray.length(); i++){
+                    JSONObject jObj = jArray.getJSONObject(i);
+                    String key = jObj.getString("key");
+                    if(key != null){
+                        parsedList.add(key);
+                    }else{
+                        parsedList.add("key not found");
+                    }
+                }
+
+
+            }catch(JSONException j){
+                Log.e("arrayListOfMovieIds", j.getMessage(), j);
+                j.printStackTrace();
+            }
+            return parsedList;
 
         }
     }
