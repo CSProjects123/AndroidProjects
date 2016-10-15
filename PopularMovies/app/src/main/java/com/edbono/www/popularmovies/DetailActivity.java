@@ -10,9 +10,19 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        String data = getIntent().getExtras().getString("movie_name");
-        String temp = "movie name: ";
-        temp = temp + data;
-        Log.v("movie name", temp);
+
+        String d1 = getIntent().getExtras().getString("movie_name");
+        String d2 = getIntent().getExtras().getString("release_date");
+        String d3 = getIntent().getExtras().getString("overview");
+        String d4 = getIntent().getExtras().getString("vote_average");
+
+        Log.v("TRANSFERED--", d1);
+        Log.v("TRANSFERED--", d2);
+        Log.v("TRANSFERED--", d3);
+        Log.v("TRANSFERED--", d4);
+
+
+
+
     }
 }

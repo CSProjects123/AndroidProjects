@@ -39,6 +39,21 @@ public class NetworkingFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public class NewClass{
+        ArrayList<String> movieTitles;
+        ArrayList<String> overview;
+        ArrayList<String> release_date;
+        ArrayList<String> vote_average;
+
+
+        public NewClass(){
+            movieTitles = new ArrayList<String>();
+            overview = new ArrayList<String>();
+            release_date = new ArrayList<String>();
+            vote_average = new ArrayList<String>();
+        }
+    }
+
     static boolean order_popular_movies = true;
 
     @Override
@@ -56,9 +71,14 @@ public class NetworkingFragment extends Fragment {
 
     }
 
+
+
     public class NetworkingTask extends AsyncTask<String, Void, String[]>{
 
+
         ArrayList<String> arrayListOfMovieTitles = new ArrayList<String>();
+        NewClass n2 = new NewClass();
+
 
         String movieName = new String();
 
@@ -70,7 +90,7 @@ public class NetworkingFragment extends Fragment {
 
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-            final String key = "239673e0d4f6d7699c13c4382188****";
+            final String key = "239673e0d4f6d7699c13c4382188812e";
             String size = "w185";
             String movie_data_string = null;
 
@@ -111,17 +131,12 @@ public class NetworkingFragment extends Fragment {
                     return null;
                 }
                 movie_data_string = buffer.toString();
-                // call a function to parse the JSON and get back the array of posterIds
                 ArrayList<String> posterIDs = posterIds(movie_data_string);
-                ArrayList<String> movieNamesArrayList = getMovieNames(movie_data_string);
-                String first = movieNamesArrayList.get(0);
-                first = "the first movie" + first;
-                Log.v("The first movie",first);
 
-                for (String s:movieNamesArrayList){
-                    arrayListOfMovieTitles.add(s);
 
-                }
+                NewClass newClass = getNewClass(movie_data_string);
+                n2 = newClass;
+
                 final String base_url_posters = "http://image.tmdb.org/t/p/w185";
                 ArrayList<String> posterURLs = new ArrayList<String>();
                 for (String s: posterIDs){
@@ -150,6 +165,10 @@ public class NetworkingFragment extends Fragment {
             }
 
         }
+
+
+
+
         @Override
         protected void onPostExecute(String[] strings){
 
@@ -167,17 +186,22 @@ public class NetworkingFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
-                    int k = position;
-                    String tem = "pOsition" + k;
-                    Log.v("pOsition", tem);
-                    String movie_name = arrayListOfMovieTitles.get(position);
-                    detailIntent.putExtra("movie_name", movie_name);
-                    // information we need to send include:
-                    // original title
-                    /* movie poster image thumbnail
-                    A plot synopsis (called overview in the api)
-                    user rating (called vote_average in the api)
-                    release date*/
+                    //String movie_name = arrayListOfMovieTitles.get(position);
+                    String movie_name = n2.movieTitles.get(position);
+                    String overview = n2.overview.get(position);
+                    String release_date = n2.release_date.get(position);
+                    String vote_average = n2.vote_average.get(position);
+
+                    String temp1 = "vart" + movie_name;
+                    String temp2 = "vart" + overview;
+                    String temp3 = "vart" + release_date;
+                    String temp4 = "vart" + vote_average;
+
+
+                    detailIntent.putExtra("movie_name", temp1);
+                    detailIntent.putExtra("overview", temp2);
+                    detailIntent.putExtra("release_date", temp3);
+                    detailIntent.putExtra("vote_average", temp4);
                     startActivity(detailIntent);
 
                 }
@@ -186,6 +210,57 @@ public class NetworkingFragment extends Fragment {
         }
 
     }
+
+
+    private NewClass getNewClass(String json_string){
+
+        NewClass n1 = new NewClass();
+
+
+        try{
+            JSONObject jObject = new JSONObject(json_string);
+
+            JSONArray jArray = jObject.getJSONArray("results");
+            for (int i=0; i<jArray.length(); i++){
+                JSONObject jObj = jArray.getJSONObject(i);
+                String original_title = jObj.getString("original_title");
+                String release_date = jObj.getString("release_date");
+                String vote_average = jObj.getString("vote_average");
+                String overview = jObj.getString("overview");
+                String pleasee = "pleaseee" + overview;
+                Log.v("pleaseeeee", pleasee);
+
+                if(original_title != null){
+                    n1.movieTitles.add(original_title);
+                }else{
+                    n1.movieTitles.add("not found");
+                }
+                if(release_date != null){
+                    n1.release_date.add(release_date);
+                }else{
+                    n1.release_date.add("not found");
+                }
+                if(vote_average != null){
+                    n1.vote_average.add(vote_average);
+                }else{
+                    n1.overview.add("not found");
+                }    if(overview != null){
+                    n1.overview.add(overview);
+                }else{
+                    n1.overview.add("not found");
+                }
+
+
+            }
+
+        }catch (JSONException j) {
+            Log.e("posterIDFunction", j.getMessage(), j);
+            j.printStackTrace();
+        }
+
+        return n1;
+    }
+
 
     private ArrayList<String> posterIds(String json_string){
 
@@ -209,37 +284,13 @@ public class NetworkingFragment extends Fragment {
         return arrayListOfPosters;
     }
 
-    private ArrayList<String> getMovieNames(String json_string){
-        ArrayList<String> arrayListOfMovieTitles = new ArrayList<String>();
-        try{
-            JSONObject jsonObject = new JSONObject(json_string);
-            Log.v("new", jsonObject.toString());
-            JSONArray jsonArray = jsonObject.getJSONArray("results"); // this is an array of json objects
-            Log.v("String", jsonArray.toString());
-            // for each of these objects
-            for (int i=0; i<jsonArray.length(); i++){
-                JSONObject jObj = jsonArray.getJSONObject(i);
-                String movieTitle = jObj.getString("original_title");
-                if(movieTitle != null){
-                    arrayListOfMovieTitles.add(movieTitle);
-                }
-            }
-        }catch(JSONException j){
-            Log.e("getMoviesFunction", j.getMessage(), j);
-            j.printStackTrace();
-        }
-        return arrayListOfMovieTitles;
-    }
-
 
     public void updateMovies(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String orderType = prefs.getString(getString(R.string.order), getString(R.string.pref_order_popular_movies));
-        Log.v("WHAT", orderType);
         // send the order type to the NetworkingTask class
         if (!orderType.equals(getString(R.string.pref_order_popular_movies))){
             order_popular_movies = false;
-            Log.v("wecamehere", "wecamehere");
         }else{
             order_popular_movies = true;
         }
