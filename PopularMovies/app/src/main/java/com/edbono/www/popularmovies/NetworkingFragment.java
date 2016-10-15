@@ -44,6 +44,7 @@ public class NetworkingFragment extends Fragment {
         ArrayList<String> overview;
         ArrayList<String> release_date;
         ArrayList<String> vote_average;
+        ArrayList<String> poster_ids;
 
 
         public NewClass(){
@@ -51,6 +52,7 @@ public class NetworkingFragment extends Fragment {
             overview = new ArrayList<String>();
             release_date = new ArrayList<String>();
             vote_average = new ArrayList<String>();
+            poster_ids = new ArrayList<String>();
         }
     }
 
@@ -90,7 +92,7 @@ public class NetworkingFragment extends Fragment {
 
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-            final String key = "239673e0d4f6d7699c13c4382188812e";
+            final String key = "239673e0d4f6d7699c13c4382188****";
             String size = "w185";
             String movie_data_string = null;
 
@@ -131,10 +133,12 @@ public class NetworkingFragment extends Fragment {
                     return null;
                 }
                 movie_data_string = buffer.toString();
-                ArrayList<String> posterIDs = posterIds(movie_data_string);
+                //ArrayList<String> posterIDs = posterIds(movie_data_string);
 
 
                 NewClass newClass = getNewClass(movie_data_string);
+                ArrayList<String> posterIDs = newClass.poster_ids;
+
                 n2 = newClass;
 
                 final String base_url_posters = "http://image.tmdb.org/t/p/w185";
@@ -142,6 +146,7 @@ public class NetworkingFragment extends Fragment {
                 for (String s: posterIDs){
                     String posterUrl = base_url_posters+s;
                     posterURLs.add(posterUrl);
+                    Log.v("URl", posterUrl);
                 }
                 String[] stringArray = posterURLs.toArray(new String[0]);
                 return stringArray;
@@ -191,17 +196,19 @@ public class NetworkingFragment extends Fragment {
                     String overview = n2.overview.get(position);
                     String release_date = n2.release_date.get(position);
                     String vote_average = n2.vote_average.get(position);
+                    String poster_id = n2.poster_ids.get(position);
 
-                    String temp1 = "vart" + movie_name;
-                    String temp2 = "vart" + overview;
-                    String temp3 = "vart" + release_date;
-                    String temp4 = "vart" + vote_average;
+                    String temp1 =  movie_name;
+                    String temp2 =  overview;
+                    String temp3 =  release_date;
+                    String temp4 =  vote_average;
 
 
                     detailIntent.putExtra("movie_name", temp1);
                     detailIntent.putExtra("overview", temp2);
                     detailIntent.putExtra("release_date", temp3);
                     detailIntent.putExtra("vote_average", temp4);
+                    detailIntent.putExtra("poster_id", poster_id);
                     startActivity(detailIntent);
 
                 }
@@ -227,8 +234,7 @@ public class NetworkingFragment extends Fragment {
                 String release_date = jObj.getString("release_date");
                 String vote_average = jObj.getString("vote_average");
                 String overview = jObj.getString("overview");
-                String pleasee = "pleaseee" + overview;
-                Log.v("pleaseeeee", pleasee);
+                String poster_path = jObj.getString("poster_path");
 
                 if(original_title != null){
                     n1.movieTitles.add(original_title);
@@ -244,12 +250,17 @@ public class NetworkingFragment extends Fragment {
                     n1.vote_average.add(vote_average);
                 }else{
                     n1.overview.add("not found");
-                }    if(overview != null){
+                }
+                if(overview != null){
                     n1.overview.add(overview);
                 }else{
                     n1.overview.add("not found");
                 }
-
+                if(poster_path != null){
+                    n1.poster_ids.add(poster_path);
+                }else{
+                    n1.poster_ids.add("not found");
+                }
 
             }
 
