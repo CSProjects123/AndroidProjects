@@ -45,6 +45,7 @@ public class NetworkingFragment extends Fragment {
         ArrayList<String> release_date;
         ArrayList<String> vote_average;
         ArrayList<String> poster_ids;
+        ArrayList<String> movie_id;
 
 
         public NewClass(){
@@ -53,6 +54,8 @@ public class NetworkingFragment extends Fragment {
             release_date = new ArrayList<String>();
             vote_average = new ArrayList<String>();
             poster_ids = new ArrayList<String>();
+            movie_id = new ArrayList<String>();
+
         }
     }
 
@@ -133,6 +136,7 @@ public class NetworkingFragment extends Fragment {
                     return null;
                 }
                 movie_data_string = buffer.toString();
+                Log.v("theJSON", movie_data_string);
                 //ArrayList<String> posterIDs = posterIds(movie_data_string);
 
 
@@ -182,8 +186,6 @@ public class NetworkingFragment extends Fragment {
             for (String s: strings){
                 newArrayList.add(s);
            }
-            String temp = newArrayList.get(0);
-            temp = "the first entry " + temp;
             GridView gridViewTrial = (GridView) getActivity().findViewById(R.id.gridviewtwo);
             ImageAdapter imageAdapter = new ImageAdapter(getActivity(), newArrayList);
             gridViewTrial.setAdapter(imageAdapter);
@@ -197,18 +199,15 @@ public class NetworkingFragment extends Fragment {
                     String release_date = n2.release_date.get(position);
                     String vote_average = n2.vote_average.get(position);
                     String poster_id = n2.poster_ids.get(position);
+                    String movie_id = n2.movie_id.get(position);
 
-                    String temp1 =  movie_name;
-                    String temp2 =  overview;
-                    String temp3 =  release_date;
-                    String temp4 =  vote_average;
-
-
-                    detailIntent.putExtra("movie_name", temp1);
-                    detailIntent.putExtra("overview", temp2);
-                    detailIntent.putExtra("release_date", temp3);
-                    detailIntent.putExtra("vote_average", temp4);
+                    detailIntent.putExtra("movie_name", movie_name);
+                    detailIntent.putExtra("overview", overview);
+                    detailIntent.putExtra("release_date", release_date);
+                    detailIntent.putExtra("vote_average", vote_average);
                     detailIntent.putExtra("poster_id", poster_id);
+                    detailIntent.putExtra("movie_id", movie_id);
+
                     startActivity(detailIntent);
 
                 }
@@ -235,6 +234,7 @@ public class NetworkingFragment extends Fragment {
                 String vote_average = jObj.getString("vote_average");
                 String overview = jObj.getString("overview");
                 String poster_path = jObj.getString("poster_path");
+                String movie_id = jObj.getString("id");
 
                 if(original_title != null){
                     n1.movieTitles.add(original_title);
@@ -260,6 +260,11 @@ public class NetworkingFragment extends Fragment {
                     n1.poster_ids.add(poster_path);
                 }else{
                     n1.poster_ids.add("not found");
+                }
+                if(movie_id!= null){
+                    n1.movie_id.add(movie_id);
+                }else{
+                    n1.movie_id.add("not found");
                 }
 
             }

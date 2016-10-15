@@ -19,9 +19,8 @@ public class DetailActivity extends AppCompatActivity {
         String d3 = getIntent().getExtras().getString("overview");
         String d4 = getIntent().getExtras().getString("vote_average");
         String d5 = getIntent().getExtras().getString("poster_id");
+        String movie_id = getIntent().getExtras().getString("movie_id");
 
-        //what's remaining is to display all of this to the user , and to also d
-        //get and display the image.
         String base_url = "http://image.tmdb.org/t/p/w185";
         String poster_url = base_url + d5;
 
@@ -35,10 +34,6 @@ public class DetailActivity extends AppCompatActivity {
         textViewOverview.setText(d3);
         textViewReleaseDate.setText(d2);
         textViewVoterRating.setText(d4);
-
-
-
-
 
     }
 }
