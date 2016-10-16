@@ -1,11 +1,13 @@
 package com.edbono.www.popularmovies;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,11 +61,8 @@ public class DetailActivity extends AppCompatActivity {
         FetchURLKey fetchURLKey = new FetchURLKey();
         fetchURLKey.execute(movie_id);
 
-        //String thesize = "thesize";
-        //thesize = thesize + Integer.toString(numberOfTrailers);
-        //Log.v("thesize", thesize);
-
-
+        FetchReview fetchReview = new FetchReview();
+        fetchReview.execute(movie_id);
 
     }
 
@@ -155,29 +154,41 @@ public class DetailActivity extends AppCompatActivity {
             thesize = thesize + Integer.toString(numberOfTrailers);
             Log.v("thesize", thesize);
 
-            // Since we don;t know how many trailers there are, we wpould have to add them
-            // programmatically, rather than in XML
-
-            LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout);
-
-            // for practices let just add a TextView
-
-            TextView txt1 = new TextView(DetailActivity.this);
-            txt1.setText("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            layout.setBackgroundColor(Color.TRANSPARENT);
-            layout.addView(txt1);
-
-            // now lets try adding a button , for which this class will have to implement listener
             addButtons(fullTrailerUrls);
 
         }
 
-        public void addButtons(ArrayList<String> arrayListOfTrailerUrls){
+        public void addButtons(final ArrayList<String> arrayListOfTrailerUrls){
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout);
+
+            for (int i=0; i<arrayListOfTrailerUrls.size(); i++){
+
+                final int temp_i = i;
+
+                String trailer_number = "tariler: " + Integer.toString(i+1);
+                Button bt = new Button(DetailActivity.this);
+                bt.setText(trailer_number);
+                layout.addView(bt);
+                bt.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // in this step we should be creating a new intent to
+                        // transfer to a new screen - youtube or browser
+                        Intent videoPlayerIntent = new Intent(Intent.ACTION_VIEW);
+                        String videoURLstring = "http://www.youtube.com/watch?v=" +  arrayListOfTrailerUrls.get(temp_i);
+                        Log.v("Vide URL--+++++",videoURLstring);
+                        Log.v("theMovieIDis", arrayListOfTrailerUrls.get(temp_i));
+                        Uri videoUri = Uri.parse(videoURLstring);
+                        videoPlayerIntent.setData(Uri.parse(arrayListOfTrailerUrls.get(temp_i)));
+                        if (videoPlayerIntent.resolveActivity(getPackageManager()) != null){
+                            Log.v("videoPlayerIntent", "videoPlayerIntent");
+                            startActivity(videoPlayerIntent);
+                        }
+                    }
+                });
 
 
-
-
-
+            }
 
         }
 
@@ -207,5 +218,81 @@ public class DetailActivity extends AppCompatActivity {
             return parsedList;
 
         }
+    }
+
+
+
+
+    public class FetchReview extends AsyncTask<String, Void, String>{
+
+        private final String LOG_TAG = FetchReview.class.getSimpleName();
+
+        protected String doInBackground(String... params){
+
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+            final String key = "239673e0d4f6d7699c13c4382188812e";
+            String data_with_reviews;
+            try{
+                Log.v("try Block reached", "did we even reach teh Try block?");
+
+                String MovieID = params[0];
+                final String base_url = "http://api.themoviedb.org/3/movie";
+                Uri builtUri = Uri.parse(base_url).buildUpon().appendPath(MovieID).appendPath("reviews")
+                        .appendQueryParameter("api_key", key).build();
+                URL url = new URL(builtUri.toString());
+                String stringReviewData = "json reviews address -> " + builtUri.toString();
+                Log.v("reviews", stringReviewData);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    // Nothing to do.
+                    return null;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    // But it does make debugging a *lot* easier if you print out the completed
+                    // buffer for debugging.
+                    buffer.append(line + "\n");
+                }
+                if (buffer.length() == 0) {
+                    // Stream was empty.  No point in parsing.
+                    return null;
+                }
+                data_with_reviews = buffer.toString();
+                return data_with_reviews;
+
+
+            }catch(IOException e){
+                Log.e(LOG_TAG, "Error", e);
+                return null;
+            }finally {
+
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e(LOG_TAG, "Error closing stream", e);
+                    }
+                }
+
+            }
+        }
+
+        protected void onPostExecute(String string){
+            String json_movie_data = "json movie data" + string;
+            Log.v("json movie data--> ", json_movie_data);
+
+        }
+
     }
 }
