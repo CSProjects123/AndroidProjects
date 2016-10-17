@@ -176,8 +176,6 @@ public class DetailActivity extends AppCompatActivity {
                         // transfer to a new screen - youtube or browser
                         Intent videoPlayerIntent = new Intent(Intent.ACTION_VIEW);
                         String videoURLstring = "http://www.youtube.com/watch?v=" +  arrayListOfTrailerUrls.get(temp_i);
-                        Log.v("Vide URL--+++++",videoURLstring);
-                        Log.v("theMovieIDis", arrayListOfTrailerUrls.get(temp_i));
                         Uri videoUri = Uri.parse(videoURLstring);
                         videoPlayerIntent.setData(Uri.parse(arrayListOfTrailerUrls.get(temp_i)));
                         if (videoPlayerIntent.resolveActivity(getPackageManager()) != null){
@@ -291,6 +289,49 @@ public class DetailActivity extends AppCompatActivity {
         protected void onPostExecute(String string){
             String json_movie_data = "json movie data" + string;
             Log.v("json movie data--> ", json_movie_data);
+            final ArrayList<String> arrayListReviews = new ArrayList<String>();
+
+            try{
+                JSONObject jsonObject = new JSONObject(string);
+                JSONArray jArray = jsonObject.getJSONArray("results");
+                // Let make an arrayList of all the reviews for this movie
+                //ArrayList<String> arrayListReviews = new ArrayList<String>();
+
+                for (int i=0; i<jArray.length(); i++){
+                    Log.v("wtf", "wtf");
+                    JSONObject jObj = jArray.getJSONObject(i);
+                    String content = jObj.getString("content");
+                    if(content != null){
+                        arrayListReviews.add(content);
+                        String modifiedContent = "modified content" + content;
+                        Log.v("content", modifiedContent);
+
+                    }else{
+                        Log.v("content", "returned null");
+                    }
+                }
+
+                // now that we have the reviews, we want to display them to the user in
+                // a different activity by adding a button to take us there.
+
+                LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout);
+                Button read_reviews_button = new Button(DetailActivity.this);
+                read_reviews_button.setText("Read Reviews");
+                layout.addView(read_reviews_button);
+                read_reviews_button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // over hear I want to explicitly move to another activity
+                        Intent reviewsIntent = new Intent(DetailActivity.this, ReviewsActivity.class);
+                        reviewsIntent.putStringArrayListExtra("reviews_arrayList", arrayListReviews);
+                        startActivity(reviewsIntent);
+
+                    }
+                });
+            }catch(JSONException j){
+                Log.e("arrayListOfMovieIds", j.getMessage(), j);
+                j.printStackTrace();
+            }
+
 
         }
 
