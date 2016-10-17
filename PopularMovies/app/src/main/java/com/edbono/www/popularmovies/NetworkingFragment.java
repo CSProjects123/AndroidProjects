@@ -95,7 +95,7 @@ public class NetworkingFragment extends Fragment {
 
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-            final String key = "239673e0d4f6d7699c13c4382188****";
+            final String key = "239673e0d4f6d7699c13c4382188812e";
             String size = "w185";
             String movie_data_string = null;
 

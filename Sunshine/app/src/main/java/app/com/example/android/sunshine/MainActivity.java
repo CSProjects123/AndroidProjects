@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.v("oncreate triggered", "oncreate triggered");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -32,6 +34,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.v("onstart triggered", "onstart triggered");
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.v("onresume triggered", "onresume triggered");
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.v("onpause triggered", "onpause triggered");
+    }
+
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.v("onstop triggered", "onstop triggered");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.v("ondestroy triggered", "ondestroy triggered");
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

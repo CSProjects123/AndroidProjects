@@ -1,0 +1,15 @@
+						Udacity notes from Project 1 stage 2 (videos)
+
+get your appes to listedn to onPause and onStop handlers to save any data - after on pause, the activity can be terminates at any time. 
+
+
+Users only ask for exit options when the app is using too manu resources. in android,there is really no need for an exit option. you can manager resources by paying attention to onPause handlers, which are invoked when the app is not the foremost app running. Addionally, there are other notifications that you can listen to in terms of memory and battery life that can help in judicious and timely use of resources. 
+
+onsavedinstancestate is called immediately before onPause 
+
+onRestoreInstanceState is called immeditely after onCreate, but only if the app is being re-started after being terminted from the system. 
+
+This is the way the android is managing its resources. 
+
+Using less data and network resources is extremely important in mobile applications -  enter persistant data. It also helps a great deal un created a better user experience. 
+
