@@ -13,3 +13,26 @@ This is the way the android is managing its resources.
 
 Using less data and network resources is extremely important in mobile applications -  enter persistant data. It also helps a great deal un created a better user experience. 
 
+.quit to exit the command line Sqlite
+
+
+
+
+DATABASES 
+
+
+why do we have separate tables? 
+1. It is more efficient - we do not replicate our location data with each record.
+2. We can update just the information about the other table, without having to update every record of the previous table. 
+ 
+
+ A FOREIGN KEY in one table points to a PRIMARY KEY in another table.
+
+
+
+
+
+ All of this facilitates the INNER JOIN - we can get one table representing data from both the previous tables. 
+
+
+
